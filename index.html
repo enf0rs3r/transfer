@@ -1,45 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Трансферный рынок</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
             padding: 20px;
-            background-color: #f4f4f9;
         }
-        .button {
-            background-color: #00aaff;
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .player-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+        .player-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .btn {
+            padding: 10px 15px;
+            background-color: #5cb85c;
             color: white;
-            padding: 10px 20px;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
-            border-radius: 5px;
+        }
+        .btn:disabled {
+            background-color: #ccc;
         }
     </style>
 </head>
 <body>
-    <h1>Трансферный рынок</h1>
-    <p>Добро пожаловать в трансферный рынок. Выберите действия:</p>
-    <button class="button" id="playersButton">Посмотреть игроков</button>
-    <button class="button" id="addPlayerButton">Добавить игрока</button>
+    <div class="container">
+        <h1>Трансферный рынок</h1>
+        <div id="players-list">
+            <!-- Здесь будут отображаться игроки -->
+        </div>
+        <button id="add-player-btn" class="btn">Добавить игрока</button>
+    </div>
 
     <script>
-        // Подключаем Telegram Web App API
-        Telegram.WebApp.ready();
+        const players = [
+            { name: "Иван", position: "Нападающий", team: "Команда 1", price: "10000" },
+            { name: "Петр", position: "Полузащитник", team: "Команда 2", price: "12000" },
+            // добавь больше игроков сюда
+        ];
 
-        // Обработка кнопки для отображения списка игроков
-        document.getElementById('playersButton').onclick = function() {
-            Telegram.WebApp.sendData('view_players');
-        };
+        // Функция отображения игроков
+        function renderPlayers() {
+            const playersList = document.getElementById("players-list");
+            playersList.innerHTML = '';
+            players.forEach(player => {
+                const playerCard = document.createElement("div");
+                playerCard.className = "player-card";
+                playerCard.innerHTML = `
+                    <div class="player-info">
+                        <strong>${player.name}</strong>
+                        <small>Позиция: ${player.position}</small>
+                        <small>Команда: ${player.team}</small>
+                        <small>Цена: ${player.price} ₽</small>
+                    </div>
+                    <button class="btn" onclick="buyPlayer('${player.name}')">Купить</button>
+                `;
+                playersList.appendChild(playerCard);
+            });
+        }
 
-        // Обработка кнопки для добавления игрока
-        document.getElementById('addPlayerButton').onclick = function() {
-            Telegram.WebApp.sendData('add_player');
-        };
+        // Функция покупки игрока
+        function buyPlayer(playerName) {
+            alert(`Вы купили игрока: ${playerName}`);
+            // Здесь можно отправить информацию на сервер или обновить данные
+        }
+
+        // Отображаем игроков при загрузке страницы
+        renderPlayers();
     </script>
 </body>
 </html>
