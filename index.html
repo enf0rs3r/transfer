@@ -84,7 +84,7 @@
             data.transferSum = (data.transferSum / 1000000).toFixed(2); // Конвертируем в миллионы евро
 
             const webAppData = JSON.stringify(data);
-            const webAppUrl = `https://t.me/your_bot_username?start=${encodeURIComponent(webAppData)}`;
+            const webAppUrl = `https://t.me/transferftclbot?start=${encodeURIComponent(webAppData)}`;
 
             window.location.href = webAppUrl; // Отправка данных в Telegram через ссылку
         });
