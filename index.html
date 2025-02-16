@@ -5,76 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Заявка на трансфер</title>
     <style>
+        /* Общие стили для страницы */
         body {
             font-family: Arial, sans-serif;
-            background-color: #1e1e2e;
-            color: white;
-            text-align: center;
-            margin: 20px;
-        }
-        .container {
-            max-width: 400px;
-            margin: auto;
-            background: #282a36;
+            background-color: #f9f9f9;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+            margin: 0;
+            box-sizing: border-box;
         }
-        input, select, button {
+
+        /* Контейнер для формы */
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Поля ввода */
+        input[type="text"], input[type="number"], input[type="url"], textarea {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            border: none;
+            box-sizing: border-box;
             font-size: 16px;
         }
-        input, select {
-            background: #44475a;
+
+        /* Кнопка отправки */
+        button[type="submit"] {
+            background-color: #4CAF50;
             color: white;
-        }
-        button {
-            background: #50fa7b;
-            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
             cursor: pointer;
-            font-weight: bold;
+            width: 100%;
         }
-        button:hover {
-            background: #40d873;
+
+        /* Кнопка при наведении */
+        button[type="submit"]:hover {
+            background-color: #45a049;
         }
     </style>
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand(); // Раскрывает Web App на весь экран
-
-        function sendApplication() {
-            let data = {
-                playerName: document.getElementById("playerName").value.trim(),
-                transferDetails: document.getElementById("transferDetails").value.trim(),
-                transferSum: document.getElementById("transferSum").value.trim(),
-                clubOwner: document.getElementById("clubOwner").value.trim(),
-                contractDuration: document.getElementById("contractDuration").value.trim()
-            };
-
-            // Проверка на заполненность полей
-            if (!data.playerName || !data.transferDetails || !data.transferSum || !data.clubOwner || !data.contractDuration) {
-                alert("Пожалуйста, заполните все поля!");
-                return;
-            }
-
-            tg.sendData(JSON.stringify(data)); // Отправка данных в бота
-            tg.close(); // Закрытие Web App после отправки
-        }
-    </script>
 </head>
 <body>
-    <div class="container">
-        <h2>Заявка на трансфер</h2>
-        <input type="text" id="playerName" placeholder="Ник игрока">
-        <input type="text" id="transferDetails" placeholder="Детали перехода">
-        <input type="number" id="transferSum" placeholder="Сумма трансфера">
-        <input type="text" id="clubOwner" placeholder="Клуб-владелец">
-        <input type="text" id="contractDuration" placeholder="Длительность контракта">
-        <button onclick="sendApplication()">Отправить заявку</button>
-    </div>
+    <form id="transferForm">
+        <h2>Подать заявку на трансфер</h2>
+
+        <label for="playerName">Имя игрока:</label>
+        <input type="text" id="playerName" name="playerName" required>
+
+        <label for="transferDetails">Детали перехода:</label>
+        <input type="text" id="transferDetails" name="transferDetails" required>
+
+        <label for="transferSum">Сумма контракта (€):</label>
+        <input type="number" id="transferSum" name="transferSum" required>
+
+        <label for="clubOwner">Клуб владельца:</label>
+        <input type="text" id="clubOwner" name="clubOwner" required>
+
+        <label for="contractDuration">Длительность контракта (в годах):</label>
+        <input type="number" id="contractDuration" name="contractDuration" required>
+
+        <button type="submit">Отправить заявку</button>
+    </form>
+
+    <script>
+        document.getElementById('transferForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            data.transferSum = (data.transferSum / 1000000).toFixed(2); // Конвертируем в миллионы евро
+
+            const webAppData = JSON.stringify(data);
+            const webAppUrl = `https://t.me/your_bot_username?start=${encodeURIComponent(webAppData)}`;
+
+            window.location.href = webAppUrl; // Отправка данных в Telegram через ссылку
+        });
+    </script>
 </body>
 </html>
