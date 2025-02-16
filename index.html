@@ -3,76 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Трансфермаркет</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Трансферы ФТКЛ</title>
     <style>
+        /* Глобальные стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        form {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
+            width: 90%;
             max-width: 400px;
-            margin: auto;
         }
-        input {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
         }
-        button {
-            padding: 10px;
-            background-color: #28a745;
+
+        p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Красивая кнопка */
+        .btn {
+            display: inline-block;
+            background: #ff9800;
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.5);
         }
-        button:hover {
-            background-color: #218838;
+
+        .btn:hover {
+            background: #e68900;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.7);
+        }
+
+        /* Добавим плавную анимацию */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            animation: fadeIn 0.8s ease-in-out;
         }
     </style>
 </head>
 <body>
-    <h1>Форма заявки на трансфер</h1>
-    <form id="transferForm">
-        <label>Ник игрока:</label>
-        <input type="text" id="playerName" required>
-        
-        <label>Откуда и куда переходит:</label>
-        <input type="text" id="transferDetails" required>
-        
-        <label>Сумма трансфера/аренды:</label>
-        <input type="text" id="transferSum" required>
-        
-        <label>Внешность игрока (ссылка на PNG):</label>
-        <input type="url" id="playerImage" required>
-        
-        <label>Какого клуба вы владеете:</label>
-        <input type="text" id="clubOwner" required>
-        
-        <label>Длительность контракта:</label>
-        <input type="text" id="contractDuration" required>
-        
-        <button type="submit">Отправить</button>
-    </form>
-    <script>
-        document.getElementById('transferForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const data = {
-                playerName: document.getElementById('playerName').value,
-                transferDetails: document.getElementById('transferDetails').value,
-                transferSum: document.getElementById('transferSum').value,
-                playerImage: document.getElementById('playerImage').value,
-                clubOwner: document.getElementById('clubOwner').value,
-                contractDuration: document.getElementById('contractDuration').value
-            };
-            Telegram.WebApp.sendData(JSON.stringify(data));
-            Telegram.WebApp.close();
-        });
-    </script>
+    <div class="container">
+        <h1>Подай заявку на трансфер</h1>
+        <p>Заполни форму и отправь данные в нашу лигу!</p>
+        <a href="https://t.me/enfhub" class="btn">Перейти к заявке</a>
+    </div>
 </body>
 </html>
